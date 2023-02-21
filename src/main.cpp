@@ -38,31 +38,22 @@ public:
 	{
 
 	}
+
+	long int SetName(const char* name) {
+		return bio::organic::Organism::SetName(name);
+	}
+
+	const char* GetName() {
+		return bio::organic::Organism::GetName().AsCharString();
+	}
 };
-
-int test()
-{
-// This works
-//	bio::chemical::Atom a;
-//	a.FormBond< int >(1234);
-//	return *a.As< int* >();
-
-// This fails
-//	bio::chemical::Substance s;
-
-// This fails
-//	bio::organic::Organism* t = new Organism("Blah");
-//	delete t;
-
-	return 22;
-}
 
 PYBIND11_MODULE(immortality, module) {
 //	auto molecule = py::class_< Molecule >(module, "Molecule");
 //	molecule.def(py::init<>());
 
-	auto organism = py::class_< Organism >(module, "Organism");
-	organism.def(py::init<>());
-
-	module.def("test", &test, "Bloop");
+	auto organism = py::class_< Organism >(module, "Organism")
+	    .def(py::init<>())
+		.def("SetName", &Organism::SetName)
+		.def("GetName", &Organism::GetName);
 }
